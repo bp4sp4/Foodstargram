@@ -11,25 +11,23 @@
         <div class="wrap__interface">
             <div class="wrap__interface__login">
                 <h1>FoodStargram</h1>
-                <form>
-                
+              
                     <div class="textbox">
-                        <input type="text" placeholder="아이디" required>
+                        <input type="text" placeholder="아이디" required id="idInput">
                     </div>
                     <div class="textbox">
-                        <input type="password" placeholder="비밀번호" required>
+                        <input type="password" placeholder="비밀번호" required id="passwordInput">
                     </div>
                        <div class="textbox">
-                        <input type="password" placeholder="비밀번호확인" required>
+                        <input type="password" placeholder="비밀번호확인" required id="passwordConfirmInput">
                     </div>
                        <div class="textbox">
-                        <input type="text" placeholder="이름" required>
+                        <input type="text" placeholder="이름" required id="nameInput">
                     </div>
                        <div class="textbox">
-                        <input type="text" placeholder="이메일" required>
+                        <input type="text" placeholder="이메일" required id="emailInput">
                     </div>
-                    <button type="submit" class="btn">가입하기</button>
-                </form>
+                    <button type="button" class="btn" id="joinBtn">가입하기</button>
                 
             </div>
           
@@ -40,5 +38,59 @@
         </div>
         
     </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
+    <script>
+    $(document).ready(function() {
+        $("#joinBtn").on("click", function() {
+            let id = $("#idInput").val();
+            let password = $("#passwordInput").val();
+            let passwordConfirm = $("#passwordConfirmInput").val();
+            let name = $("#nameInput").val();
+            let email = $("#emailInput").val();
+
+            if (id == "") {
+                alert("아이디를 입력하세요.");
+                return;
+            }
+
+            if (password == "") {
+                alert("비밀번호를 입력하세요.");
+                return;
+            }
+
+            if (password != passwordConfirm) {
+                alert("비밀번호가 일치하지 않습니다.");
+                return;
+            }
+
+            if (name == "") {
+                alert("이름을 입력하세요.");
+                return;
+            }
+
+            if (email == "") {
+                alert("이메일을 입력하세요.");
+                return;
+            }
+
+            $.ajax({
+                type: "POST"
+                ,url: "/user/join"
+                ,data: { "loginId": id, "password": password, "name": name, "email": email }
+            	,success: function(data) {
+                    if (data.result === "success") {
+                        location.href = "/user/login-view";
+                    } else {
+                        alert("회원가입 실패!");
+                    }
+                },
+                error: function() {
+                    alert("회원 가입 에러!");
+                }
+            });
+        });
+    });
+    </script>
 </body>
 </html>
