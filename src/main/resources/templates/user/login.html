@@ -18,15 +18,16 @@
             <div>
             <div class="wrap__interface__login">
                 <h1>FoodStargram</h1>
-                <form>
+              
+              <form id="loginForm">
                     <div class="textbox">
-                        <input type="text" placeholder="아이디" required>
+                        <input type="text" placeholder="아이디" required id="loginInput">
                     </div>
                     <div class="textbox">
-                        <input type="password" placeholder="비밀번호" required>
+                        <input type="password" placeholder="비밀번호" required id="passwordInput">
                     </div>
-                    <button type="submit" class="btn">로그인</button>
-                </form>
+                    <button type="submit" class="btn" id="loginBtn">로그인</button>
+              </form>
                 <br>
                 <hr class="textbox__hr">
                <div class="textbox__forgetpw">
@@ -39,5 +40,42 @@
                 </div>
         </div>
     </div>
+     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
+     <script>
+        $(document).ready(function() {
+            $("#loginForm").on("submit", function() {
+            	event.preventDefault();
+                let id = $("#loginInput").val();
+                let password = $("#passwordInput").val();
+                
+                if(id === "") {
+                    alert("아이디 입력하세요.");
+                    return;
+                }
+                
+                if(password === "") {
+                    alert("비밀번호를 입력하세요.");
+                    return;
+                }
+                
+                $.ajax({
+                    type: "post",
+                    url: "/user/login",
+                    data: {"loginId": id, "password": password},
+                    success: function(data) {
+                        if(data.result === "success") {
+                            location.href = "/post/list-view";
+                        } else {
+                            alert("아이디와 비밀번호를 확인해 주세요.");
+                        }
+                    },
+                    error: function() {
+                        alert("로그인 에러!!");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

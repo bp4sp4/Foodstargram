@@ -1,0 +1,152 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="/static/css/main.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    
+</head>
+
+<body>
+    <h1 class="title">FoodStargram</h1>
+    <header>
+        <i id="homeBtn" class="bi bi-house"></i>
+        <i id="plusBtn" class="bi bi-plus-circle"></i>
+    </header>
+    <!-- 게시글 작성 -->
+    <main class="wrap">
+        <div class="dialog" id="modal">
+            <div class="tb">
+                <div class="inner" style="max-width:800px;">
+                    <div class="top">
+                        <span class="close">&times;</span>
+                        <button id="saveBtn" class="saveBtn">공유하기</button>
+                    </div>
+                    <div class="ct">
+                        <div class="ct__file">
+                            <p>사진을 여기에 끌어다 놓으세요</p>
+                            <div id="btnIcon" class="btn-upload" onclick="document.getElementById('file').click();">사진 업로드하기</div>
+                            <input id="fileInput" type="file" name="file">
+                        </div>
+                        <div class="ct__contents">
+                            <p>sanggg</p>
+                            <input id="titleInput" type="text" placeholder="제목을 입력하세요." name="title">
+                            <textarea name="" id="contentsInput" placeholder="내용을 입력하세요."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 게시글 작성 끝 -->
+       	
+<div class="post__container">
+    <div class="post-list">
+        <ul>
+            <li th:each="card:${cardViewList}">
+                <div class="post__item instagram__post">
+                    <div class="post__nickname">
+			            <p class="post__comments__user" th:text="${card.loginId}">user001</p> 
+			        </div>
+                    <div class="post__image">
+                        <img th:src="${card.imagePath}" alt="Post Image" class="post__image__content" />
+                    </div>
+                    <div class="post__like">
+                    <i class="bi bi-suit-heart"></i>
+                    <i class="bi bi-suit-heart-fill"></i>
+                    <span>좋아요 95.6만개</span>
+                    </div>
+                    <div class="post__content">
+                    	<span class="post__comments__user">user001</span>
+                        <span th:text="${card.contents}"></span>
+                    </div>
+                    <div class="post__allcomments">
+                    <span>댓글 모두 보기</span>
+                    </div>
+                    <div class="post__comments">
+                        <p><span class="post__comments__user">user002</span> : 대박 맛있어보인다..</p>
+                        <p><span class="post__comments__user">user003</span> : 와 입맛이 돈다~~!</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+	
+
+    </main>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        const modal = document.getElementById('modal');
+        const plusBtn = document.getElementById('plusBtn');
+        const closeBtn = document.querySelector('.close');
+
+        plusBtn.onclick = function () {
+            modal.style.display = 'block';
+        }
+
+        closeBtn.onclick = function () {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function (event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+        
+        $(document).ready(function() {
+        	
+        	
+        	
+        	$("#btnIcon").on("click", function() {
+        		$("#fileInput").click();
+        	});
+        	
+            $("#saveBtn").on("click", function() {
+                let title = $("#titleInput").val();
+                let contents = $("#contentsInput").val();
+                let file = $("#fileInput")[0].files[0];
+                
+                if(title == "") {
+                    alert("제목을 입력하세요");
+                    return ;
+                }
+                
+                if(contents == "") {
+                    alert("내용을 입력하세요");
+                    return ;
+                }
+                
+                let formData = new FormData();
+                formData.append("title", title);
+                formData.append("contents", contents);
+                formData.append("imageFile", file);
+                
+                $.ajax({
+                    type: "post",
+                    url: "/post/create",
+                    data: formData,
+                    enctype: "multipart/form-data", // 파일 업로드 필수 
+                    processData: false, // 파일 업로드 필수
+                    contentType: false, // 파일 업로드 필수 
+                    success: function(data) {
+                        if(data.result == "success") {
+                            location.href = "/post/list-view";
+                        } else {
+                            alert("메모 입력 실패");
+                        }
+                    },
+                    error: function() {
+                        alert("메모 입력 에러!");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

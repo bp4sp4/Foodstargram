@@ -1,0 +1,258 @@
+@charset "UTF-8";
+
+.title {
+    margin: 2rem 2rem;
+    position: fixed;
+}
+
+header {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    justify-content: center;
+}
+
+#homeBtn {
+    font-size: 80px;
+    margin-left: 2rem;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+#plusBtn {
+    font-size: 80px;
+    margin-left: 2rem;
+    cursor: pointer;
+}
+
+.wrap {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal {
+    display: none;
+}
+
+.modal-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.dialog {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.dialog>.tb {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.dialog>.tb .inner {
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    border-radius: 16px;
+}
+
+.dialog .top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    justify-content: space-between;
+}
+
+.inner .saveBtn {
+    width: 100px;
+    height: 30px;
+    background: #007bff;
+    color: #fff;
+    border: 1px solid #007bff;
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialog .title {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.dialog .ct {
+    display: flex;
+    max-height: 60vh;
+    height: 60vh;
+    overflow-y: auto;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: #fff;
+}
+
+.dialog .ct .ct__file {
+    width: 50%;
+    border: 1px solid #d2d2d2;
+    margin-right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dialog .ct .ct__contents {
+    width: 50%;
+}
+
+.ct__contents #titleInput {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.ct__contents #contentsInput {
+    width: 100%;
+    height: 81%;
+    padding: 10px;
+}
+
+
+.btn-upload {
+    width: 150px;
+    height: 30px;
+    background: #fff;
+    border: 1px solid rgb(77, 77, 77);
+    border-radius: 10px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s;
+}
+
+.btn-upload:hover {
+    background-color: #007bff;
+    color: #fff;
+}
+
+#file {
+    display: none;
+}
+
+#fileInput {
+	display:none;
+}
+input[id="modal"]:checked+label+.dialog {
+    display: block;
+}
+
+.close {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.inputtitle {
+    width: 100%;
+}
+li {
+	list-style: none;
+}
+.post__nickname {
+	margin : 10px 10px 0 10px;
+}
+.post__container {
+    height: 100vh;
+    scroll-snap-type: y mandatory; 
+}
+.post__item {
+    background-color: white;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width : 390px
+}
+
+.instagram__post .post__image {
+    width: 100%;
+    height: 60%;
+    overflow: hidden;
+    background-color: #f2f2f2;
+}
+
+.instagram__post .post__image__content {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+.post__content {
+	display : flex;
+    padding: 5px;
+    font-size: 14px;
+    color: #262626;
+}
+
+.post__content span{
+	padding : 5px;
+}
+.post__comments {
+    margin: 10px 10px 0 10px;
+    font-size: 14px;
+    color: #555;
+    width: 100%;
+        cursor: pointer;
+}
+
+.post__comments p {
+    margin: 5px 0;
+}
+
+.post__comments__user {
+	color: #000;
+	font-weight : bold;
+}
+.post__allcomments {
+	margin-left : 10px;
+	font-size : 14px;
+	color : #8b8a8a;
+	cursor : pointer;
+}
+
+.post__like {
+	display : flex;
+	margin: 10px 10px 0 10px;
+}
+
+.post__like i{
+	color : red;
+	margin-top : 5px;	
+}
+
+
