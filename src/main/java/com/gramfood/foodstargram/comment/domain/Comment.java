@@ -1,8 +1,9 @@
-package com.gramfood.foodstargram.postlike.domain;
+package com.gramfood.foodstargram.comment.domain;
 
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,14 +16,13 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-// Insert into like () value ();
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Table(name="postlike")
+@Table(name="comment")
 @Entity
-public class PostLike {
+public class Comment {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -32,9 +32,15 @@ public class PostLike {
 	private int postId;
 	
 	@Column(name="userId")
-	private int userId;
+	private int userID;
+	
+	private String contents;
 	
 	@CreationTimestamp
 	@Column(name="createdAt")
 	private LocalDateTime createdAt;
+	
+	@UpdateTimestamp
+	@Column(name="updatedAt")
+	private LocalDateTime updatedAt;
 }

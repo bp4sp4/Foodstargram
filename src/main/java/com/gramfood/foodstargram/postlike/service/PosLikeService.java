@@ -2,6 +2,7 @@ package com.gramfood.foodstargram.postlike.service;
 
 import org.springframework.stereotype.Service;
 
+import com.gramfood.foodstargram.postlike.domain.PostLike;
 import com.gramfood.foodstargram.postlike.repository.PostLikeRepository;
 
 @Service
@@ -9,15 +10,17 @@ public class PosLikeService {
 	
 	private PostLikeRepository postLikeRepository;
 	
-	public PostLikeService(PostLikeRepository postLikeRepository ) {
+	public PosLikeService(PostLikeRepository postLikeRepository) {
 		this.postLikeRepository = postLikeRepository;
 	}
 	
-	public Like addPostLike(int postId, int userId) {
+	public PostLike addLike(int postId, int userId) {
+			PostLike postLike = PostLike.builder()
+								.postId(postId)
+								.userId(userId)
+								.build();
 		
-		Like like = like.bullder()
-				.postId
-		
-		Like result = likeRepositry.save(like)
+	return postLikeRepository.save(postLike);
+			
 	}
 }

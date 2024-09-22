@@ -51,11 +51,11 @@
                     <div class="post__image">
                         <img th:src="${card.imagePath}" alt="Post Image" class="post__image__content" />
                     </div>
-                    <div class="post__like">
-                    <i class="bi bi-suit-heart"></i>
-                    <i class="bi bi-suit-heart-fill"></i>
-                    <span>좋아요 95.6만개</span>
-                    </div>
+                  <div class="post__like">
+                  <i class="bi bi-suit-heart likeBtn" th:attr="data-post-id=${card.postId}"></i>
+				    <span id="likeCount">11개</span>
+				</div>
+
                     <div class="post__content">
                     	<span class="post__comments__user">user001</span>
                         <span th:text="${card.contents}"></span>
@@ -66,6 +66,10 @@
                     <div class="post__comments">
                         <p><span class="post__comments__user">user002</span> : 대박 맛있어보인다..</p>
                         <p><span class="post__comments__user">user003</span> : 와 입맛이 돈다~~!</p>
+                    </div>
+                    <div>
+                    	<input type="text" class="comment__form"/>
+                    	<button type="button" class="comment-btn">게시</button>
                     </div>
                 </div>
             </li>
@@ -100,6 +104,29 @@
         
         $(document).ready(function() {
         	
+        	$(".comment-btn").on("click", function() {
+        		alert();
+        	})
+        	
+        	   $(".likeBtn").on("click", function() {
+        	        let postId = $(this).data("post-id");
+
+        	        $.ajax({
+        	            type: "post",
+        	            url: "/post/like",
+        	            data: { "postId": postId },
+        	            success: function(data) {
+        	                if (data.result == "success") {
+        	                    location.reload(); // 페이지 새로고침
+        	                } else {
+        	                    alert("좋아요 실패!!");
+        	                }
+        	            },
+        	            error: function() {
+        	                alert("좋아요 에러");
+        	            }
+        	        });
+        	    });
         	
         	
         	$("#btnIcon").on("click", function() {
