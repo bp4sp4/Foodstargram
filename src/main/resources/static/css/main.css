@@ -1,8 +1,15 @@
 @charset "UTF-8";
 
-.title {
+
+.main__header {
+	display: flex;
+    justify-content: space-between;
     margin: 2rem 2rem;
-    position: fixed;
+}
+
+.main__header .logout {
+	text-decoration : none;
+	color : #000;
 }
 
 header {
