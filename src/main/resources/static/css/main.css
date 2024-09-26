@@ -183,6 +183,8 @@ li {
 }
 .post__nickname {
 	margin : 10px 10px 0 10px;
+	display : flex;
+	justify-content: space-between;
 }
 .post__container {
     height: 100vh;
@@ -254,6 +256,22 @@ li {
 	color : red;
 	margin-top : 5px;	
 	cursor : pointer;
+}
+
+.comment__form {
+	width : 300px;
+	margin: 8px;
+}
+
+.comment-btn {
+	width: 60px;
+    height: 30px;
+    color:#fff;
+    background: #007bff;
+    border: 1px solid rgb(77, 77, 77);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
 }
 
 

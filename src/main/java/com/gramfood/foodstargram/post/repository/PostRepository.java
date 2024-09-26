@@ -12,7 +12,11 @@ import com.gramfood.foodstargram.post.domain.Post;
 public interface PostRepository extends JpaRepository<Post, Integer> {
     
 	
-
+	// ORDER BY 'id' desc
 	public List<Post> findAllByOrderByIdDesc();
 	
+	// WHERE `id` = #{id} AND `userId` = #{userID}
+	
+	public Optional<Post> findByIdAndUserId(int id, int userId);
+
 }

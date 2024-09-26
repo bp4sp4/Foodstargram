@@ -7,10 +7,13 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gramfood.foodstargram.comment.dto.CommentView;
+import com.gramfood.foodstargram.comment.service.CommentService;
 import com.gramfood.foodstargram.common.FileManager;
 import com.gramfood.foodstargram.dto.CardView;
 import com.gramfood.foodstargram.post.domain.Post;
 import com.gramfood.foodstargram.post.repository.PostRepository;
+import com.gramfood.foodstargram.postlike.service.PosLikeService;
 import com.gramfood.foodstargram.user.domain.User;
 import com.gramfood.foodstargram.user.service.UserService;
 
@@ -19,11 +22,15 @@ public class PostService {
 
     private final PostRepository postRepository;
     private UserService userService; 
+    private PosLikeService postLikeService;
+    private CommentService commentService;
 
     // 생성자에서 UserService 주입
-    public PostService(PostRepository postRepository, UserService userService) {
+    public PostService(PostRepository postRepository, UserService userService, PosLikeService postLikeService, CommentService commentService) {
         this.postRepository = postRepository;
         this.userService = userService;
+        this.postLikeService = postLikeService;
+        this.commentService = commentService;
     }
 
     // 게시글 추가
@@ -45,7 +52,7 @@ public class PostService {
     }
 
     // 게시물을 내림차순
-    public List<CardView> getPostList() {
+    public List<CardView> getPostList(int loginUserId) {
     	
         List<Post> postList = postRepository.findAllByOrderByIdDesc();
 
@@ -55,6 +62,9 @@ public class PostService {
         	
             int userId = post.getUserId();
             User user = userService.getUserById(userId);
+            int likeCount = postLikeService.getLikeCount(post.getId());
+            boolean isLike = postLikeService.isLikeByUserIdandPostId(loginUserId, post.getId());
+            List<CommentView> commentList = commentService.getCommentListByPostId(post.getId());
 
             CardView cardView = CardView.builder()
 			                    .postId(post.getId())
@@ -62,6 +72,9 @@ public class PostService {
 			                    .contents(post.getContents())
 			                    .imagePath(post.getImagePath())
 			                    .loginId(user.getLoginId())
+			                    .likeCount(likeCount)
+			                    .isLike(isLike)
+			                    .commentList(commentList)
 			                    .build();
 
             cardViewList.add(cardView);
@@ -78,4 +91,22 @@ public class PostService {
 		
 		return post;
 	}
+    
+    public boolean deletePost(int id, int userId) {
+    	Optional<Post> optionalPost = postRepository.findByIdAndUserId(id, userId);
+    	Post post = optionalPost.orElse(null);
+    	
+    	if(post !=null) {
+    		// 좋아요 
+    		postLikeService.deleteLikeByPostId(id);
+    		// 댓글 
+    		commentService.deleteCommentByPostID(id);
+    		
+    		FileManager.removeFile(post.getImagePath());
+    		postRepository.delete(post);
+    		return true;
+    	} else {
+    		return false;
+    	}
+    }
 }

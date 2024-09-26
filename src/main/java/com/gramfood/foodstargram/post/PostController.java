@@ -24,9 +24,10 @@ public class PostController {
 	
 	@GetMapping("/list-view")
 	public String memoList(Model model, HttpSession session) {
-	    int userId = (Integer) session.getAttribute("userId");
-	    
-	    List<CardView> cardViewList = postService.getPostList(); 
+	
+	    int userId = (Integer)session.getAttribute("userId");
+		
+	    List<CardView> cardViewList = postService.getPostList(userId); 
 	    
 	    model.addAttribute("cardViewList", cardViewList);
 	    
